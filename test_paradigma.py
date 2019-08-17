@@ -1,8 +1,25 @@
-import pytest, time, os
+import os
+import time
 from datetime import datetime as dt
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+
+class ResultPage(object):
+
+    def __init__(self, driver):
+        self.driver = driver
+
+    def verif_autorization(self):
+        return self.driver.find_element_by_xpath(
+            '//div[@class="x-toolbar-text  ps-user-label x-box-item x-toolbar-item x-toolbar-text-default"]').text
+
+    def check(self, source):
+        self.driver.find_element_by_xpath("//span[contains(.,'%s')]" % (source + " (")).click()
+        print("Зарегистрировано " + source + ": " + self.driver.find_element_by_xpath(
+            '//div[text()="%s"]/../../div[1]/div[1]' % Out).text)
+        return self.driver.find_element_by_xpath('//div[text()="%s"]' % Out).text
 
 class HomePage(object):
 
@@ -21,7 +38,6 @@ class HomePage(object):
         return control.find_element_by_xpath('.//' + xpath)
 
     def fillInfo(self, source, surname, name, patronymic, mail):
-
 
         if source != "mil":
             family_name = self.getControl("Фамилия")
